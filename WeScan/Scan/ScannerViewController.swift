@@ -46,6 +46,15 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    lazy private var galleryButton: UIButton = {
+        let button = UIButton()
+        let galleryImage = UIImage(named: "gallery", in: Bundle(for: ScannerViewController.self), compatibleWith: nil)
+        button.setImage(galleryImage, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(galleryScannerController), for: .touchUpInside)
+        return button
+    }()
+    
     lazy private var toolbar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.barStyle = .blackTranslucent
@@ -93,7 +102,6 @@ final class ScannerViewController: UIViewController {
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
         navigationController?.setNavigationBarHidden(true, animated: false)
-        NSLog("viewWillAppear")
     }
     
     override func viewDidLayoutSubviews() {
@@ -120,6 +128,7 @@ final class ScannerViewController: UIViewController {
         quadView.editable = false
         view.addSubview(quadView)
         view.addSubview(cancelButton)
+        view.addSubview(galleryButton)
         view.addSubview(shutterButton)
         view.addSubview(activityIndicator)
         view.addSubview(toolbar)
@@ -141,6 +150,7 @@ final class ScannerViewController: UIViewController {
         var toolbarConstraints = [NSLayoutConstraint]()
         var quadViewConstraints = [NSLayoutConstraint]()
         var cancelButtonConstraints = [NSLayoutConstraint]()
+        var galleryButtonConstraints = [NSLayoutConstraint]()
         var shutterButtonConstraints = [NSLayoutConstraint]()
         var activityIndicatorConstraints = [NSLayoutConstraint]()
         
@@ -176,8 +186,13 @@ final class ScannerViewController: UIViewController {
                 toolbarConstraints.append(toolbar.heightAnchor.constraint(equalToConstant: safeAreaInsets.top + 44.0))
             }
             
+            galleryButtonConstraints = [
+                galleryButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
+                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: galleryButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+            ]
+            
             cancelButtonConstraints = [
-                cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
+                cancelButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24.0),
                 view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
             ]
             
@@ -191,8 +206,13 @@ final class ScannerViewController: UIViewController {
                 toolbar.topAnchor.constraint(equalTo: view.topAnchor)
             ]
             
+            galleryButtonConstraints = [
+                galleryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
+                view.bottomAnchor.constraint(equalTo: galleryButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+            ]
+            
             cancelButtonConstraints = [
-                cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
+                cancelButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24.0),
                 view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
             ]
             
@@ -200,7 +220,7 @@ final class ScannerViewController: UIViewController {
             shutterButtonConstraints.append(shutterButtonBottomConstraint)
         }
         
-        NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + galleryButtonConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints + toolbarConstraints)
     }
     
     // MARK: - Actions
@@ -249,6 +269,36 @@ final class ScannerViewController: UIViewController {
         imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
     }
     
+    var imagePicker = UIImagePickerController()
+    @objc private func galleryScannerController() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .savedPhotosAlbum;
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.navigationBar.backgroundColor = .white
+            self.imagePicker.navigationBar.isTranslucent = false
+            
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+}
+
+extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var picture = info[.originalImage] as! UIImage
+        picture = picture.rotated(by: Measurement(value: 180, unit: .degrees))!
+
+        let quad = Quadrilateral(topLeft: CGPoint(x: 0, y: 0),
+                                 topRight: CGPoint(x: picture.size.width, y: 0),
+                                 bottomRight: CGPoint(x: picture.size.width, y: picture.size.height),
+                                 bottomLeft: CGPoint(x: 0, y: picture.size.height))
+        imagePicker.dismiss(animated: true, completion: nil)
+        
+        let editVC = EditScanViewController(image: picture, quad: quad)
+        navigationController?.pushViewController(editVC, animated: false)
+    }
 }
 
 extension ScannerViewController: RectangleDetectionDelegateProtocol {

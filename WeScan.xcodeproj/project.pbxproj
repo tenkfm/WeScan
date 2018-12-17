@@ -68,6 +68,9 @@
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
+		CA863C6821C806F7008E1C8B /* gallery@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA863C6521C806F6008E1C8B /* gallery@3x.png */; };
+		CA863C6921C806F7008E1C8B /* gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = CA863C6621C806F6008E1C8B /* gallery.png */; };
+		CA863C6A21C806F7008E1C8B /* gallery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA863C6721C806F6008E1C8B /* gallery@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +246,9 @@
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
+		CA863C6521C806F6008E1C8B /* gallery@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@3x.png"; sourceTree = "<group>"; };
+		CA863C6621C806F6008E1C8B /* gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gallery.png; sourceTree = "<group>"; };
+		CA863C6721C806F6008E1C8B /* gallery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -486,6 +492,7 @@
 		B94FBB9D2178647B001ED1B4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				CA863C5D21C8051F008E1C8B /* Gallery */,
 				B983380121A6CA4E00AAE307 /* Enhance */,
 				B9274D2D219AE10B00F9FCD1 /* Flash */,
 				B9274D30219AE16000F9FCD1 /* FlashUnavailable */,
@@ -501,6 +508,16 @@
 				B940E38721A77192003B3C0B /* enhance@3x.png */,
 			);
 			name = Enhance;
+			sourceTree = "<group>";
+		};
+		CA863C5D21C8051F008E1C8B /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				CA863C6621C806F6008E1C8B /* gallery.png */,
+				CA863C6721C806F6008E1C8B /* gallery@2x.png */,
+				CA863C6521C806F6008E1C8B /* gallery@3x.png */,
+			);
+			name = Gallery;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -716,10 +733,13 @@
 				B94FBBAD2178652B001ED1B4 /* flash.png in Resources */,
 				B94FBBAF2178652B001ED1B4 /* flash@2x.png in Resources */,
 				B940E38C21A77192003B3C0B /* enhance.png in Resources */,
+				CA863C6821C806F7008E1C8B /* gallery@3x.png in Resources */,
+				CA863C6921C806F7008E1C8B /* gallery.png in Resources */,
 				B94FBBB32178653C001ED1B4 /* flashUnavailable@3x.png in Resources */,
 				B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */,
 				B940E38A21A77192003B3C0B /* enhance@3x.png in Resources */,
 				B940E38B21A77192003B3C0B /* enhance@2x.png in Resources */,
+				CA863C6A21C806F7008E1C8B /* gallery@2x.png in Resources */,
 				B94FBBB42178653C001ED1B4 /* flashUnavailable.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
