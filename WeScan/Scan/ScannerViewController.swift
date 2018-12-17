@@ -93,6 +93,7 @@ final class ScannerViewController: UIViewController {
         captureSessionManager?.start()
         UIApplication.shared.isIdleTimerDisabled = true
         navigationController?.setNavigationBarHidden(true, animated: false)
+        NSLog("viewWillAppear")
     }
     
     override func viewDidLayoutSubviews() {
