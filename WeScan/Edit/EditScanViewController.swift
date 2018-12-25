@@ -98,6 +98,9 @@ final class EditScanViewController: UIViewController {
     private func setupViews() {
         view.addSubview(imageView)
         view.addSubview(quadView)
+        
+        guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        navigationController?.navigationBar.tintColor = imageScannerController.navigationBarTint
     }
     
     private func setupConstraints() {
