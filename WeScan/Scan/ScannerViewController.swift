@@ -271,14 +271,19 @@ final class ScannerViewController: UIViewController {
     
     var imagePicker = UIImagePickerController()
     @objc private func galleryScannerController() {
+        guard let imageScannerController = navigationController as? ImageScannerController else { return }
+        
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
-            self.imagePicker.delegate = self
-            self.imagePicker.sourceType = .savedPhotosAlbum;
-            self.imagePicker.allowsEditing = false
-            self.imagePicker.navigationBar.backgroundColor = .white
-            self.imagePicker.navigationBar.isTranslucent = false
-            
-            self.present(self.imagePicker, animated: true, completion: nil)
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum;
+            imagePicker.allowsEditing = false
+
+            imagePicker.navigationBar.isTranslucent = false
+            imagePicker.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            imagePicker.navigationBar.shadowImage = UIImage()
+            imagePicker.navigationBar.backgroundColor = .white
+            imagePicker.navigationBar.tintColor = imageScannerController.navigationBarTint
+            present(self.imagePicker, animated: true, completion: nil)
         }
     }
     

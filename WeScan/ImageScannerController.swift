@@ -45,6 +45,8 @@ public final class ImageScannerController: UINavigationController {
     /// The object that acts as the delegate of the `ImageScannerController`.
     weak public var imageScannerDelegate: ImageScannerControllerDelegate?
     
+    public var navigationBarTint: UIColor = .black
+    
     // MARK: - Life Cycle
     
     /// A black UIView, used to quickly display a black screen when the shutter button is presseed.
