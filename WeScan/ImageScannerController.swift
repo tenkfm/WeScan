@@ -57,12 +57,13 @@ public final class ImageScannerController: UINavigationController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     public required init() {
         let scannerViewController = ScannerViewController()
         super.init(rootViewController: scannerViewController)
         navigationBar.tintColor = .black
         navigationBar.isTranslucent = false
+        self.view.backgroundColor = .black
         self.view.addSubview(blackFlashView)
         setupConstraints()
     }
