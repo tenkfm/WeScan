@@ -46,6 +46,7 @@ public final class ImageScannerController: UINavigationController {
     weak public var imageScannerDelegate: ImageScannerControllerDelegate?
     
     public var navigationBarTint: UIColor = .black
+    public var navigationBarBackground: UIColor = .white
     
     // MARK: - Life Cycle
     

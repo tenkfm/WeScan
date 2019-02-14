@@ -101,6 +101,10 @@ final class EditScanViewController: UIViewController {
         
         guard let imageScannerController = navigationController as? ImageScannerController else { return }
         navigationController?.navigationBar.tintColor = imageScannerController.navigationBarTint
+        navigationController?.navigationBar.backgroundColor = imageScannerController.navigationBarTint
+        navigationController?.navigationBar.barTintColor = imageScannerController.navigationBarTint
+        
+        //        UIColor(red: 242, green: 235, blue: 228)
     }
     
     private func setupConstraints() {
