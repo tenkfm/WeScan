@@ -281,7 +281,9 @@ final class ScannerViewController: UIViewController {
             imagePicker.navigationBar.isTranslucent = false
             imagePicker.navigationBar.setBackgroundImage(UIImage(), for: .default)
             imagePicker.navigationBar.shadowImage = UIImage()
-            imagePicker.navigationBar.backgroundColor = .white
+            imagePicker.navigationBar.backgroundColor = imageScannerController.navigationBarBackground
+            imagePicker.navigationBar.backgroundColor = imageScannerController.navigationBarBackground
+            imagePicker.navigationBar.barTintColor = imageScannerController.navigationBarBackground
             imagePicker.navigationBar.tintColor = imageScannerController.navigationBarTint
             present(self.imagePicker, animated: true, completion: nil)
         }
