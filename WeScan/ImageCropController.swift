@@ -40,9 +40,9 @@ public final class ImageCropController: UINavigationController {
     
     public required init(picture: UIImage) {
         let quad = Quadrilateral(topLeft: CGPoint(x: 0, y: 0),
-                                 topRight: CGPoint(x: picture.size.width * 2, y: 0),
-                                 bottomRight: CGPoint(x: picture.size.width * 2, y: picture.size.height * 2),
-                                 bottomLeft: CGPoint(x: 0, y: picture.size.height * 2))
+                                 topRight: CGPoint(x: picture.size.width, y: 0),
+                                 bottomRight: CGPoint(x: picture.size.width, y: picture.size.height),
+                                 bottomLeft: CGPoint(x: 0, y: picture.size.height))
         
         let cropViewController = EditScanViewController(image: picture, quad: quad)
         cropViewController.showBackButton = true
