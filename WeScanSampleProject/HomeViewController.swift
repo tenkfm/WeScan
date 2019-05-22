@@ -80,10 +80,39 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Actions
     
+    var cropViewController : ImageCropController?
     @objc func presentScanController(_ sender: UIButton) {
-        let scannerVC = ImageScannerController()
-        scannerVC.imageScannerDelegate = self
-        present(scannerVC, animated: true, completion: nil)
+        
+        let picture = #imageLiteral(resourceName: "WeScanLogo")
+
+        
+        // Crop image
+        cropViewController = ImageCropController(picture: picture)
+        cropViewController?.imageCropDelegate = self
+        present(cropViewController!, animated: true, completion: nil)
+        
+        //        let scannerVC = ImageScannerController()
+//        scannerVC.imageScannerDelegate = self
+//        present(scannerVC, animated: true, completion: nil)
+    }
+    
+    @objc func popReviewController() {
+        cropViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension HomeViewController: ImageCropControllerDelegate {
+    func imageCropController(_ scanner: ImageCropController, didFinishCroppingWithResults results: ImageCropResults) {
+        scanner.dismiss(animated: true, completion: nil)
+    }
+    
+    func imageCropControllerDidCancel(_ scanner: ImageCropController) {
+        scanner.dismiss(animated: true, completion: nil)
+    }
+    
+    func imageCropController(_ scanner: ImageCropController, didFailWithError error: Error) {
+        print(error)
     }
     
 }

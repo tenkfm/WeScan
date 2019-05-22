@@ -24,14 +24,14 @@ public struct Quadrilateral: Transformable {
     /// A point that specifies the bottom left corner of the quadrilateral.
     var bottomLeft: CGPoint
     
-    init(rectangleFeature: CIRectangleFeature) {
+    public init(rectangleFeature: CIRectangleFeature) {
         self.topLeft = rectangleFeature.topLeft
         self.topRight = rectangleFeature.topRight
         self.bottomLeft = rectangleFeature.bottomLeft
         self.bottomRight = rectangleFeature.bottomRight
     }
     
-    init(topLeft: CGPoint, topRight: CGPoint, bottomRight: CGPoint, bottomLeft: CGPoint) {
+    public init(topLeft: CGPoint, topRight: CGPoint, bottomRight: CGPoint, bottomLeft: CGPoint) {
         self.topLeft = topLeft
         self.topRight = topRight
         self.bottomRight = bottomRight

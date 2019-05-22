@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 /// The `EditScanViewController` offers an interface for the user to edit the detected quadrilateral.
-final class EditScanViewController: UIViewController {
+public final class EditScanViewController: UIViewController {
     
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,7 +35,13 @@ final class EditScanViewController: UIViewController {
         button.tintColor = navigationController?.navigationBar.tintColor
         return button
     }()
+    
+    lazy private var cancelButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: ScannerViewController.self), value: "Cancel", comment: "Cancel button state"), style: .plain, target: self, action: #selector(cancelCropController))
+    }()
 
+    public var showBackButton = false
+    
     /// The image the quadrilateral was detected on.
     private let image: UIImage
     
@@ -49,17 +55,17 @@ final class EditScanViewController: UIViewController {
     
     // MARK: - Life Cycle
     
-    init(image: UIImage, quad: Quadrilateral?) {
+    public init(image: UIImage, quad: Quadrilateral?) {
         self.image = image.applyingPortraitOrientation()
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
@@ -67,25 +73,30 @@ final class EditScanViewController: UIViewController {
         title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
         navigationItem.rightBarButtonItem = nextButton
         
+        if showBackButton {
+            navigationItem.leftBarButtonItem = cancelButton
+        }
+        
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
         touchDown.minimumPressDuration = 0
         view.addGestureRecognizer(touchDown)
+        
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adjustQuadViewConstraints()
         displayQuad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Work around for an iOS 11.2 bug where UIBarButtonItems don't get back to their normal state after being pressed.
@@ -99,12 +110,18 @@ final class EditScanViewController: UIViewController {
         view.addSubview(imageView)
         view.addSubview(quadView)
         
-        guard let imageScannerController = navigationController as? ImageScannerController else { return }
-        navigationController?.navigationBar.tintColor = imageScannerController.navigationBarTint
-        navigationController?.navigationBar.backgroundColor = imageScannerController.navigationBarBackground
-        navigationController?.navigationBar.barTintColor = imageScannerController.navigationBarBackground
+        if let imageScannerController = navigationController as? ImageScannerController {
+            navigationController?.navigationBar.tintColor = imageScannerController.navigationBarTint
+            navigationController?.navigationBar.backgroundColor = imageScannerController.navigationBarBackground
+            navigationController?.navigationBar.barTintColor = imageScannerController.navigationBarBackground
+        }
         
-        //        UIColor(red: 242, green: 235, blue: 228)
+        if let imageCropController = navigationController as? ImageCropController {
+            navigationController?.navigationBar.tintColor = imageCropController.navigationBarTint
+            navigationController?.navigationBar.backgroundColor = imageCropController.navigationBarBackground
+            navigationController?.navigationBar.barTintColor = imageCropController.navigationBarBackground
+        }
+        
     }
     
     private func setupConstraints() {
@@ -137,6 +154,10 @@ final class EditScanViewController: UIViewController {
                     let error = ImageScannerControllerError.ciImageCreation
                     imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFailWithError: error)
                 }
+                if let imageCropController = navigationController as? ImageCropController {
+                    let error = ImageScannerControllerError.ciImageCreation
+                    imageCropController.imageCropDelegate?.imageCropController(imageCropController, didFailWithError: error)
+                }
                 return
         }
         
@@ -166,14 +187,35 @@ final class EditScanViewController: UIViewController {
         
         let finalImage = uiImage.withFixedOrientation()
         
-        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
+        let results = ImageScannerResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)        
+        if let imageScannerController = navigationController as? ImageScannerController {
+            var newResults = results
+            newResults.scannedImage = results.scannedImage
+            newResults.doesUserPreferEnhancedImage = true
+            imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
+        }
         
-        guard let imageScannerController = navigationController as? ImageScannerController else { return }
-        var newResults = results
-        newResults.scannedImage = results.scannedImage
-        newResults.doesUserPreferEnhancedImage = true
-        imageScannerController.imageScannerDelegate?.imageScannerController(imageScannerController, didFinishScanningWithResults: newResults)
+        if let imageCropController = navigationController as? ImageCropController {
+            let results = ImageCropResults(originalImage: image, scannedImage: finalImage, enhancedImage: enhancedImage, doesUserPreferEnhancedImage: false, detectedRectangle: scaledQuad)
+            var newResults = results
+            newResults.scannedImage = results.scannedImage
+            newResults.doesUserPreferEnhancedImage = true
+            imageCropController.imageCropDelegate?.imageCropController(imageCropController, didFinishCroppingWithResults: newResults)
+        }
     }
+    
+    @objc private func cancelCropController() {
+        if let imageCropController = navigationController as? ImageCropController {
+            imageCropController.imageCropDelegate?.imageCropControllerDidCancel(imageCropController)
+        }
+        
+        if let imageScannerController = navigationController as? ImageScannerController {
+            imageScannerController.imageScannerDelegate?.imageScannerControllerDidCancel(imageScannerController)
+        }
+        
+    }
+
+    
 
     private func displayQuad() {
         let imageSize = image.size

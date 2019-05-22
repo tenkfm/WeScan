@@ -68,6 +68,7 @@
 		C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31DD8A220C087D80072D439 /* ZoomGestureController.swift */; };
 		C3789C9B20CC69AD001B423F /* QuadrilateralViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */; };
 		C3E2EB8E20B8970800A42E58 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */; };
+		CA6B63EB22959DC500CC5E7D /* ImageCropController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6B63EA22959DC500CC5E7D /* ImageCropController.swift */; };
 		CA863C6821C806F7008E1C8B /* gallery@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA863C6521C806F6008E1C8B /* gallery@3x.png */; };
 		CA863C6921C806F7008E1C8B /* gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = CA863C6621C806F6008E1C8B /* gallery.png */; };
 		CA863C6A21C806F7008E1C8B /* gallery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA863C6721C806F6008E1C8B /* gallery@2x.png */; };
@@ -246,6 +247,7 @@
 		C31DD8A220C087D80072D439 /* ZoomGestureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGestureController.swift; sourceTree = "<group>"; };
 		C3789C9A20CC69AD001B423F /* QuadrilateralViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuadrilateralViewTests.swift; sourceTree = "<group>"; };
 		C3E2EB8D20B8970800A42E58 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
+		CA6B63EA22959DC500CC5E7D /* ImageCropController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropController.swift; sourceTree = "<group>"; };
 		CA863C6521C806F6008E1C8B /* gallery@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@3x.png"; sourceTree = "<group>"; };
 		CA863C6621C806F6008E1C8B /* gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gallery.png; sourceTree = "<group>"; };
 		CA863C6721C806F6008E1C8B /* gallery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@2x.png"; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				A1DF909F2031D89D00841A11 /* ImageScannerController.swift */,
+				CA6B63EA22959DC500CC5E7D /* ImageCropController.swift */,
 				A1DF90E220358C9E00841A11 /* Protocols */,
 				A1F22ECF203199E7001723AD /* Scan */,
 				A1F22ED020319A03001723AD /* Edit */,
@@ -789,6 +792,7 @@
 				A14089BA204D92EA0009530F /* EditScanCornerView.swift in Sources */,
 				A1DF90A02031D89D00841A11 /* ImageScannerController.swift in Sources */,
 				B9274D3A219B951000F9FCD1 /* CIImage+Utils.swift in Sources */,
+				CA6B63EB22959DC500CC5E7D /* ImageCropController.swift in Sources */,
 				C31DD8A320C087D80072D439 /* ZoomGestureController.swift in Sources */,
 				A1C4DD4E2044ADE600D36684 /* CGRect+Utils.swift in Sources */,
 				A1DF90A420331A0B00841A11 /* CIRectangleDetector.swift in Sources */,

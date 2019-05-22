@@ -288,7 +288,6 @@ final class ScannerViewController: UIViewController {
             present(self.imagePicker, animated: true, completion: nil)
         }
     }
-    
 }
 
 extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
